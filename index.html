@@ -10,56 +10,20 @@
   <meta charset="UTF-8">
   <title>Podcast Espacio Abierto</title>
   <style>
-    body { font-family: sans-serif; background: #111; color: #fff; margin: 0; padding: 20px; }
-    .episodio { margin-bottom: 40px; background: #1c1c1c; border-radius: 16px; padding: 16px; box-shadow: 0 0 8px rgba(0,0,0,0.4); }
-    h2 { color: #1DB954; }
-    iframe { border-radius: 12px; width: 100%; height: 232px; border: none; }
-    a { color: #1DB954; text-decoration: none; }
-  </style>
-</head>
-<body>
-  <h1>🎧 Últimos episodios de Espacio Abierto</h1>
-  <div id="episodios"></div>
-
-  <script>
-    const feedUrl = "https://anchor.fm/s/cc6a64a8/podcast/rss";
-    const contenedor = document.getElementById("episodios");
-
-    async function cargarEpisodios() {
-      const respuesta = await fetch(feedUrl);
-      const texto = await respuesta.text();
-      const parser = new DOMParser();
-      const xml = parser.parseFromString(texto, "application/xml");
-      const items = [...xml.querySelectorAll("item")].slice(0, 3);
-
-      items.forEach(item => {
-        const titulo = item.querySelector("title")?.textContent ?? "Episodio";
-        const descripcion = item.querySelector("description")?.textContent.replace(/<\/?[^>]+(>|$)/g, "").slice(0, 160) + "...";
-        const enlace = item.querySelector("link")?.textContent;
-
-        // Extraer el ID del episodio de Spotify si el link lo contiene
-        const match = enlace.match(/episode\/([A-Za-z0-9]+)/);
-        const spotifyId = match ? match[1] : null;
-
-        const div = document.createElement("div");
-        div.className = "episodio";
-        div.innerHTML = `
-          <h2>${titulo}</h2>
-          <p>${descripcion}</p>
-          ${spotifyId ? 
-            `<iframe src="https://open.spotify.com/embed/episode/${spotifyId}" 
-              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>` 
-            : `<a href="${enlace}" target="_blank">Escuchar episodio</a>`
-          }
-        `;
-        contenedor.appendChild(div);
-      });
+    body {
+      font-family: system-ui, sans-serif;
+      background: #111;
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+      line-height: 1.5;
     }
-
-    cargarEpisodios().catch(err => {
-      contenedor.innerHTML = "<p>Error al cargar los episodios 😕</p>";
-      console.error(err);
-    });
-  </script>
-</body>
-</html>
+    h1 {
+      color: #1DB954;
+      text-align: center;
+    }
+    .episodio {
+      margin: 32px auto;
+      max-width: 700px;
+      background: #1c1c1c;
+      bord
